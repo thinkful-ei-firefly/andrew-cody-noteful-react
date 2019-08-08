@@ -3,36 +3,72 @@ import NotefulForm from "../NotefulForm/NotefulForm";
 import ApiContext from "../ApiContext";
 
 export default class AddNote extends React.Component {
+  
   static contextType = ApiContext;
 
-  renderFolderDropDown = () =>{
-    const folders = this.context.folders
+  renderFolderDropDown = () => {
+    const folders = this.context.folders;
+
     const foldersJsx = folders.map(folder => {
-      return <option key={folder.id} value={folder.id}>{folder.name}</option>
-    }) 
-    return foldersJsx
-  }
+      return (
+        <option key={folder.id} value={folder.id}>
+          {folder.name}
+        </option>
+      );
+    });
+
+    foldersJsx.unshift(
+      <option key={null} value=''>
+        Pick A folder
+      </option>
+    );
+    return foldersJsx;
+  };
 
   handleSubmit(e) {
     e.preventDefault();
     const noteName = e.target.name.value;
-    const contentBox = e.target.name.value;
-    console.log(noteName)
-    console.log(contentBox)
+    const noteContent = e.target.content.value;
+    const folderId = e.target.folder.value;
+
+    const noteObject = {
+      name: noteName,
+      content: noteContent,
+      folderId: folderId
+    }
+
+    fetch('http://localhost:9090/notes', {
+      method: 'POST',
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(noteObject)
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      console.log(data)
+      this.context.handleAddNote(data)
+      this.props.history.goBack()
+    })
+    .catch(err => console.error(err))
   }
 
   render() {
-   return (
-    <NotefulForm onSubmit={e => this.handleSubmit(e)}>
-    <h2>New Note Folder</h2>
-    <label htmlFor="name-input"> Name:</label>
-    <input type="text" name="label" id="name-input" />
-    <label htmlFor="content-input"> Content:</label>
-    <input type="text" name="content" id="content-input" />
-    <label htmlFor="folder-input"> Folder:</label>
-    <select>{this.renderFolderDropDown()}</select>
-    <button type="submit">Submit</button>
-  </NotefulForm>
-   )
+    return (
+      <NotefulForm onSubmit={e => this.handleSubmit(e)}>
+        <h2>Add New Note</h2>
+        <label htmlFor="name"> Name:</label>
+        <input type="text" name="label" id="name" required/>
+
+        <label htmlFor="content"> Content:</label>
+        <input type="text" name="content" id="content" required/>
+
+        <label htmlFor="folder"> Folder:</label>
+        <select id="folder" onChange={this.handleChange} required>
+          {this.renderFolderDropDown()}
+        </select>
+        <button type="submit">Submit</button>
+      </NotefulForm>
+    );
   }
 }

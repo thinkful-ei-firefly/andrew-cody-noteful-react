@@ -27,7 +27,8 @@ class AddFolderForm extends React.Component {
   }
 
   render() {
-    console.log(this.context);
+    // console.log(this.context);
+
     return (
       <NotefulForm onSubmit={e => this.buttonClickListener(e)}>
         <h2>Add Folder</h2>
