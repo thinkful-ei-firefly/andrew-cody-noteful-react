@@ -1,6 +1,6 @@
 import React from 'react'
 
-class ErrorAddFolder extends React.Component{
+class ErrorAddNote extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -18,11 +18,11 @@ class ErrorAddFolder extends React.Component{
   render(){
     // console.log('made it to ErrorAddFolder render')
     if(this.state.hasError){
-      return <h2>Error with AddFolder</h2>
+      return <h2>Error with AddNote</h2>
     }
     // console.log('mad ie')
     return this.props.children
   }
 }
 
-export default ErrorAddFolder
+export default ErrorAddNote

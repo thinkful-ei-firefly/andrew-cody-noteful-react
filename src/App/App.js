@@ -11,6 +11,7 @@ import "./App.css";
 import AddFolderForm from "../AddFolderForm/AddFolderForm";
 import AddNote from "../AddNote/AddNote";
 import ErrorAddFolder from "../Errors/ErrorAddFolder";
+import ErrorAddNote from "../Errors/ErrorAddNote";
 
 class App extends Component {
   state = {
@@ -78,7 +79,9 @@ class App extends Component {
         <ErrorAddFolder>
           <Route exact path="/add-folder" component={AddFolderForm} />
         </ErrorAddFolder>
-        <Route path="/add-note" component={AddNote} />
+        <ErrorAddNote>
+          <Route path="/add-note" component={AddNote} />
+        </ErrorAddNote>
       </>
     );
   }
