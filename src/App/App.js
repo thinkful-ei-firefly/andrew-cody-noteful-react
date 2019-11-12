@@ -12,6 +12,7 @@ import AddFolderForm from "../AddFolderForm/AddFolderForm";
 import AddNote from "../AddNote/AddNote";
 import ErrorAddFolder from "../Errors/ErrorAddFolder";
 import ErrorAddNote from "../Errors/ErrorAddNote";
+import UpdateNote from "../UpdateNote/UpdateNote";
 
 class App extends Component {
   state = {
@@ -45,6 +46,7 @@ class App extends Component {
   };
 
   handleAddFolder = folder => {
+    // console.log('app: ', folder)
     this.setState({
       folders: [...this.state.folders, folder]
     });
@@ -55,6 +57,11 @@ class App extends Component {
       notes: [...this.state.notes, note]
     });
   };
+
+  handleUpdateNote = note => {
+    this.handleDeleteNote(note.id)
+    this.handleAddNote(note)
+  }
 
   renderNavRoutes() {
     return (
@@ -92,7 +99,8 @@ class App extends Component {
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
       handleAddFolder: this.handleAddFolder,
-      handleAddNote: this.handleAddNote
+      handleAddNote: this.handleAddNote,
+      handleUpdateNote: this.handleUpdateNote
     };
     return (
       <ApiContext.Provider value={value}>

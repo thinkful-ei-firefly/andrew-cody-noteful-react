@@ -3,14 +3,22 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
 
-export default class AddNote extends React.Component {
+export default class UpdateNote extends React.Component {
   static contextType = ApiContext
 
   renderFolderDropDown = () => {
     const folders = this.context.folders
     // console.log(folders)
+    // const selectedFolder = this.props.folder
 
     const foldersJsx = folders.map(folder => {
+      // if (selectedFolder === folder.id) {
+      //   return (
+      //     <option key={folder.id} value={folder.id} defaultValue={true}>
+      //       {folder.folder_name}
+      //     </option>
+      //   )
+      // }
       return (
         <option key={folder.id} value={folder.id}>
           {folder.folder_name}
@@ -20,11 +28,11 @@ export default class AddNote extends React.Component {
 
     // console.log(foldersJsx)
 
-    foldersJsx.unshift(
-      <option key={null} value="">
-        Pick A folder
-      </option>
-    )
+    // foldersJsx.unshift(
+    //   <option key={null} value=''>
+    //     Pick A folder
+    //   </option>
+    // );
     return foldersJsx
   }
 
@@ -40,37 +48,62 @@ export default class AddNote extends React.Component {
       folderId: folderId
     }
 
-    fetch(`${config.API_ENDPOINT}/notes`, {
-      method: 'POST',
+    fetch(`${config.API_ENDPOINT}/notes/${this.props.id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(noteObject)
     })
-      .then(resp => resp.json())
+      .then(resp => {
+        // console.log(resp)
+        return resp.json()
+      })
       .then(data => {
         // console.log(data)
-        this.context.handleAddNote(data[0])
-        this.props.history.goBack()
+        this.context.handleUpdateNote(data[0])
+        // this.props.history.goBack()
+        this.props.toggleUpdate()
       })
       .catch(err => console.error(err))
   }
 
   render() {
+    // console.log(this.props.content)
     return (
       <NotefulForm onSubmit={e => this.handleSubmit(e)}>
         <h2>Add New Note</h2>
         <label htmlFor="name"> Name:</label>
-        <input type="text" name="label" id="name" required />
+        <input
+          defaultValue={this.props.title}
+          type="text"
+          name="label"
+          id="name"
+          required
+        />
 
         <label htmlFor="content"> Content:</label>
-        <input type="text" name="content" id="content" required />
+        <input
+          defaultValue={this.props.content}
+          type="text"
+          name="content"
+          id="content"
+          required
+        />
 
         <label htmlFor="folder"> Folder:</label>
-        <select id="folder" onChange={this.handleChange} required>
+        <select
+          id="folder"
+          onChange={this.handleChange}
+          defaultValue={this.props.folder}
+          required
+        >
           {this.renderFolderDropDown()}
         </select>
         <button type="submit">Submit</button>
+        <button type="button" onClick={this.props.toggleUpdate}>
+          Cancel
+        </button>
       </NotefulForm>
     )
   }
