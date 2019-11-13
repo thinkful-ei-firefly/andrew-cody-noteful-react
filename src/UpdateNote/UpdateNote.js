@@ -48,7 +48,7 @@ export default class UpdateNote extends React.Component {
       folderId: folderId
     }
 
-    fetch(`${config.API_ENDPOINT}/notes/${this.props.id}`, {
+    fetch(`${config.REACT_APP_API_ENDPOINT}/notes/${this.props.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

@@ -15,7 +15,7 @@ export default class FolderCard extends React.Component {
 
   handleDelete = () => {
     const folderId = this.props.folderId
-    fetch(`${config.API_ENDPOINT}/folders/${this.props.folderId}`, {
+    fetch(`${config.REACT_APP_API_ENDPOINT}/folders/${this.props.folderId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ export default class FolderCard extends React.Component {
     //   folder_name
     // }
 
-    fetch(`${config.API_ENDPOINT}/folders/${this.props.folderId}`, {
+    fetch(`${config.REACT_APP_API_ENDPOINT}/folders/${this.props.folderId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

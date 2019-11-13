@@ -40,7 +40,7 @@ export default class AddNote extends React.Component {
       folderId: folderId
     }
 
-    fetch(`${config.API_ENDPOINT}/notes`, {
+    fetch(`${config.REACT_APP_API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

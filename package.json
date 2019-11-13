@@ -20,7 +20,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s build",
-    "preserve": "npm run build"
+    "preserve": "npm run build",
+    "deploy": "now -a Noteful"
   },
   "eslintConfig": {
     "extends": "react-app"

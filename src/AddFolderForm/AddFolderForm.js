@@ -11,7 +11,7 @@ class AddFolderForm extends React.Component {
     const folderName = e.target.name.value
     const folder = { name: folderName }
     // console.log(folder)
-    fetch(`${config.API_ENDPOINT}/folders`, {
+    fetch(`${config.REACT_APP_API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
